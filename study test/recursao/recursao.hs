@@ -149,7 +149,44 @@ distancia (x1,y1,z1) (x2,y2,z2) = sqrt (dx*dx + dy*dy + dz*dz)
     where
         dx = x1-x2
         dy = y1 -y2
-        dx =z1-z2
+        dz =z1-z2
 
 
 -- Matchinh patterns nocao de casemnto de padroes  ao chamaa  funcaod pasanod um parametro ele tentara encaixar em qual padrao  ele encaiza de cima para baixo os padroes fornecidos pelo programador. o primeiro a ser encontrado eh exceutado com o valor passado como parametro 
+
+-- de cima pra baixo o continga deve ser por ultimo 
+padroes :: Int -> String
+padroes 1 = "Um"
+padroes _ = "Nao esta entre 1 e 3 "
+
+padroes2 :: [Int] -> Int 
+padroes2 [] = 0 
+padroes2 (_:t) = padroes2 t 
+
+type Tupla4 = (Int,Int,Int,Int)
+padroes3 :: Tupla4 -> String
+padroes3 (_,_,_,fourth) | fourth > 10 = "Maior que 10."
+                        | otherwise = "Nao eh maior que 10"
+
+
+opp2 :: (Int, (Int,Int)) -> Int
+opp2 (1, (a,b)) = a + b 
+opp2 (2, (a,b)) = a - b 
+opp2 _ = 0 
+
+-- Funcoes de alta ordem 
+
+-- fucoes de alta ordem sao aquela que operam sobre outras funcoes ou seja que podem receber outra funcao como argumenro ou retormar uma funcao como resultsultaso
+
+dobra :: Int -> Int
+dobra n = n + n 
+
+quadrado :: Int -> Int
+quadrado n = n*n 
+-- uma funcao
+mapInt :: (Int -> Int) -> [Int] -> [Int]
+mapInt _ [] = []
+mapInt f (h:t) = (f h) : (mapInt f t)
+
+-- eu aponto pa
+
