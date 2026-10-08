@@ -51,5 +51,18 @@ Ensure that the **GHC / GHCi** environment is installed on your system[cite: 1, 
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/YOUR-USERNAME/YOUR-REPOSITORY-NAME.git](https://github.com/YOUR-USERNAME/YOUR-REPOSITORY-NAME.git)
-   cd YOUR-REPOSITORY-NAME
+   git clone https://github.com/lealtais/haskell-exercises.git
+   cd haskell-exercises
+   ```
+
+---
+
+## 📝 Simulado & Exam Review Guide
+
+A complete preparation and review guide based on the **ITE-002 (Functional Programming)** exam:
+- 📖 **[Guia Completo de Revisão e Anotações (com links)](./simulado/GUIA_PROVA_E_ANOTACOES.md)**
+- 💻 **[Código Executável do Simulado (`Simulado.hs`)](./simulado/Simulado.hs)**
+  - ADTs & Custom Types (`data`)
+  - Binary Trees (`Arvore a`)
+  - Custom Linked Lists (`List a` with `:>:`)
+  - Higher-Order Functions & Step-by-Step Traces (`filter`, `map`, `foldl`)

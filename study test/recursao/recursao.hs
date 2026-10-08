@@ -188,5 +188,61 @@ mapInt :: (Int -> Int) -> [Int] -> [Int]
 mapInt _ [] = []
 mapInt f (h:t) = (f h) : (mapInt f t)
 
--- eu aponto pa
+-- eu aponto para funcao e no termina eu chamo a funcao passando ela por parametro
+
+-- O que eh filtri , que receve como agrumenro ua funcao de teste e seleciona os elementos da lista que satisfazem a condicao desejada 
+
+
+filtro :: (Int -> Bool) -> [Int] -> [Int]
+filtro f [] = [] 
+filtro f (h:t)
+    | (f h) == True = h : (filtro f t)
+    | otherwise = filtro f t 
+
+pares :: Int -> Bool 
+pares x = (mod x 2 == 0)
+
+impares :: Int -> Bool 
+impares x = (mod x 2 == 1 )
+
+-- uma funcao que busca o maior elemento em uma lista de inteiros  com maior e menor comofara isso 
+
+
+
+busca :: (Int -> Int -> Int ) -> [Int] -> Int
+busca _ [] = 0 -- caso base, se a lista estiver vazia, retorna 0
+busca _ [h] = h -- caso base, se a lista tiver apenas um elemento, retorna esse elemento
+busca f (h:t) = f h (busca f t) -- se eu tiver cabeca e cauda na lista eu aplico a funcao f na cabeca e no resultado da chamada recursiva na cauda da lista
+
+
+maior :: Int -> Int -> Int 
+maior a b = if  a > b then a else b
+
+
+menor :: Int -> Int -> Int 
+menor a b = if a < b then a else b 
+
+
+
+--
+maiorElemento :: Int -> Int ->  Bool
+maiorElemento a b = if a > b then True else False
+
+menorElemento :: Int -> Int -> Bool
+menorElemento a b = if a < b then True else False
+
+buscaLista :: (Int -> Int -> Bool) -> [Int] -> Int
+buscaLista f [] = -1
+buscaLista f [h] = h
+buscaLista f (h:t) = if f h (buscaLista f t) then h else (buscaLista f t)
+
+-- A mesma busca, guardando em x o resultado encontrado na cauda.
+buscaListaWhere :: (Int -> Int -> Bool) -> [Int] -> Int
+buscaListaWhere _ [] = -1
+buscaListaWhere _ [cab] = cab
+buscaListaWhere f (cab:cauda) =
+    if f cab x then cab else x
+  where
+    x = buscaListaWhere f cauda
+
 
