@@ -236,6 +236,47 @@ Se 'func x == True', o elemento 'x' é mantido; caso contrário, é descartado. 
   foldl (-) 10 [1, 2, 3] => ((10 - 1) - 2) - 3 = 4  (acumula da esquerda para direita)
   foldr (-) 10 [1, 2, 3] => 1 - (2 - (3 - 10)) = -8 (acumula da direita para esquerda)</pre>
       </div>
+
+      <!-- CORREÇÃO DA LOUSA / TELA DO PROFESSOR + MANTER PRIMEIRO ELEMENTO -->
+      <div class="card" style="margin-top: 6px;">
+        <div class="card-title">CORREÇÃO OFICIAL DA AULA (LOUSA & TELA DO PROFESSOR) + MANTER PRIMEIRO ELEMENTO</div>
+        <div class="grid2">
+          <div>
+            <div style="font-weight: 700; color: #1e3a8a; font-size: 8.2pt; margin-bottom: 2px;">• MANTER APENAS O PRIMEIRO ELEMENTO (CABEÇA):</div>
+            <pre><span class="comm">-- Retorna só o primeiro elemento do List a:</span>
+cabeca :: <span class="hl">List</span> a -> a
+cabeca (e <span class="hl">:>:</span> resto) = e
+
+<span class="comm">-- Retorna só o resto (remove o primeiro):</span>
+removerPrimeiro :: <span class="hl">List</span> a -> <span class="hl">List</span> a
+removerPrimeiro (e <span class="hl">:>:</span> resto) = resto
+removerPrimeiro <span class="hl">Nulo</span>          = <span class="hl">Nulo</span></pre>
+
+            <div style="font-weight: 700; color: #1e3a8a; font-size: 8.2pt; margin: 4px 0 2px 0;">• Q3 NA TELA DO PROF. (RECORD SYNTAX + DOUBLE):</div>
+            <pre><span class="kw">data</span> <span class="hl">Imovel</span> = <span class="kw">Casa</span> { mq :: Double, pr :: Double }
+            | <span class="kw">Apartamento</span> { mq :: Double, pr :: Double } <span class="kw">deriving</span> Show
+
+<span class="kw">data</span> <span class="hl">Bairro</span> = <span class="kw">Pompeia</span> { lI :: [<span class="hl">Imovel</span>], des :: String, prM :: Double }
+            | <span class="kw">SantaMaria</span> { lI :: [<span class="hl">Imovel</span>], des :: String, prM :: Double } <span class="kw">deriving</span> Show</pre>
+          </div>
+
+          <div>
+            <div style="font-weight: 700; color: #1e3a8a; font-size: 8.2pt; margin-bottom: 2px;">• Q4 TESTE DE MESA EM LINHAS (EXATAMENTE COMO NA TELA DO PROF.):</div>
+            <pre><span class="comm">-- Exemplo da tela: bar (+1) [1, 2, 3]</span>
+bar (+1) (1:[2,3]) = (+1) 1 : bar (+1) [2,3]
+bar (+1) (2:[3])   = (+1) 2 : bar (+1) [3]
+bar (+1) (3:[])    = (+1) 3 : bar (+1) []
+bar (+1) []        = []
+
+<span class="comm">-- Reconstrução:</span>
+bar (+1) (1:[2,3]) = (+1) 1 : (+1) 2 : (+1 3) : []
+<span class="comm">-- Resultado:</span>  2 : 3 : 4 : []  ==>  <span class="hl">[2, 3, 4]</span>
+
+<span class="comm">-- Árvore na lousa (com parênteses):</span>
+Galho 30 (Galho 20 (<span class="hl">Nulo</span>) (Folha 3)) (Galho 45 (Folha 41) (<span class="hl">Nulo</span>))</pre>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div style="font-size: 8pt; color: #64748b; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 3px;">
