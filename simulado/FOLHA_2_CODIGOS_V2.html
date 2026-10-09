@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>FOLHA 2 V2 - 4 COLUNAS (HORIZONTAL)</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 4.5mm;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #0f172a;
+      background: #fff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .page {
+      width: 100%;
+      height: 199mm;
+      max-height: 199mm;
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 2.5mm;
+      overflow: hidden;
+    }
+    .page:last-child { page-break-after: avoid; }
+    header {
+      border-bottom: 2px solid #059669;
+      padding-bottom: 1.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    header h1 { font-size: 11pt; font-weight: 800; color: #059669; }
+    header span { font-size: 7.5pt; font-weight: 700; color: #64748b; }
+    
+    /* 4 COLUNAS PADRONIZADAS */
+    .columns4-types {
+      column-count: 4;
+      column-gap: 4mm;
+      column-rule: 1px solid #cbd5e1;
+      height: 187mm;
+    }
+    .columns4-types pre {
+      font-family: "Cascadia Code", "Consolas", monospace;
+      font-size: 6.2pt;
+      background: #fafafa;
+      border: 1px solid #cbd5e1;
+      border-radius: 3px;
+      padding: 2.5px 4px;
+      line-height: 1.13;
+      white-space: pre-wrap;
+      word-break: break-word;
+      height: 100%;
+    }
+
+    .columns4-recursao {
+      column-count: 4;
+      column-gap: 4mm;
+      column-rule: 1px solid #cbd5e1;
+      height: 187mm;
+    }
+    .columns4-recursao pre {
+      font-family: "Cascadia Code", "Consolas", monospace;
+      font-size: 4.85pt;
+      background: #fafafa;
+      border: 1px solid #cbd5e1;
+      border-radius: 3px;
+      padding: 2px 3.5px;
+      line-height: 1.05;
+      white-space: pre-wrap;
+      word-break: break-word;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PÁGINA 1: TYPES.HS EM 4 COLUNAS HORIZONTAIS -->
+  <div class="page">
+    <header>
+      <h1>FOLHA 2 (FRENTE) — SEU TYPES.HS COMPLETO (4 COLUNAS)</h1>
+      <span>study test/tipos/types.hs • Todos os comentários intactos</span>
+    </header>
+    <div class="columns4-types">
+      <pre><span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- JA estavamos usando isso o tempo, o proprio string eh um Type String = [Char] </span>
+<b style="color:#0000cc;">type</b> Produto =(Integer,String,Double)
+<b style="color:#0000cc;">type</b> Cliente = (Integer, String, Double)
+
+<b style="color:#0000cc;">type</b> Assoc k v = [(k, v)]
+find :: Eq k =&gt; k -&gt; Assoc k v -&gt; v
+find k t = head [v | (k&#x27;, v) &lt;- t, k&#x27; == k] <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- vou procurano meu array associativa - toda dyupla que estiver igual a k quero ele</span>
+
+preco :: Produto -&gt; Double
+preco (_, _, p) = p 
+
+pago:: Cliente -&gt; Double 
+pago (_, _, p) = p 
+
+atualizaPreco :: Produto -&gt; Double -&gt; Produto 
+atualizaPreco (idProd, nome,preco) inflacao = (idProd, nome, preco * (1 + inflacao))
+
+
+troco :: Produto -&gt; Cliente-&gt; Double
+troco p c = abs( pago c - preco p )
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Tipo somma</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Bool, True e False já existem no Prelude. Não precisamos redefini-los.</span>
+
+<b style="color:#0000cc;">data</b> Dir = Norte | Sul | Leste | Oeste <b style="color:#0000cc;">deriving</b> Show
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--deriving: da a possbilidae de imprimir esse tipo </span>
+
+<b style="color:#0000cc;">type</b> Coord = (Int, Int)
+<b style="color:#0000cc;">type</b> Passo = Coord -&gt; Coord
+
+para :: Dir -&gt; Passo
+para Norte (x,y) = (x, y + 1)
+para Sul (x,y) = (x, y - 1)
+para Leste (x,y) = (x + 1, y)
+para Oeste (x,y) = (x - 1, y)
+
+caminhar :: [Dir] -&gt; Passo
+caminhar ds coord = foldl (flip para) coord ds 
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- foldl nada mais eh do que isso aqui </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caminhar [] coord = coord</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caminhar (d:ds) coord = caminhar ds (para d coord)</span>
+
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Tipo Produto </span>
+
+<b style="color:#0000cc;">data</b> Ponto = MkPonto Double Double <b style="color:#0000cc;">deriving</b> Show
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--  Cada valo do tipo ponto vi conte dois valores do tipo double </span>
+
+dist :: Ponto -&gt; Ponto -&gt; Double
+dist (MkPonto x y ) (MkPonto x&#x27; y&#x27;) = sqrt $ (x-x&#x27;)^2 + (y-y&#x27;)^2
+
+<b style="color:#0000cc;">data</b> Forma = Circulo Ponto Double | Retangulo Ponto Double Double <b style="color:#0000cc;">deriving</b> Show
+
+quadrado :: Ponto -&gt; Double -&gt; Forma
+quadrado p l = Retangulo p l l
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Tipos parametrizados</span>
+
+<b style="color:#0000cc;">data</b> Identidade a = Id a
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--  o tipo ponto precisa definir um ponto a e ele vai guardar 2 valores desse tipo dependende do que eh esse tipo </span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Maybe, Just e Nothing já existem no Prelude.</span>
+
+maybeDiv :: Int -&gt; Int -&gt; Maybe Int
+maybeDiv _ 0 = Nothing
+maybeDiv x y = Just (x `div` y) <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- se y for 0 ele nao vai retornar nada, se nao ele vai retornar o valor da divisao</span>
+
+maybeHead :: [a] -&gt; Maybe a 
+maybeHead [] = Nothing
+maybeHead (x:xs) = Just x
+
+divComErro :: Int -&gt; Int -&gt; Int
+divComErro m n =
+    <b style="color:#0000cc;">case</b> maybeDiv m n <b style="color:#0000cc;">of</b>
+        Nothing -&gt; error &quot;Divisao por zero&quot;
+        Just x -&gt; x
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- data Either a b = Left a | Right b deriving Show (tipoa aparametrico acita dois tirpo e aceita dois tipos e pode ser um ou outro )</span>
+
+
+eitherDiv :: Int -&gt; Int -&gt; Either String Int
+eitherDiv _ 0 = Left &quot;Divisao por zero&quot;
+eitherDiv x y = Right (x `div` y)
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Fuzzy = verdadeiro falso pertinencia double</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--fuzzy fica == False se o vamor menor ou igauila ser veredri maior ou iguakl a zero </span>
+
+<b style="color:#0000cc;">data</b> Fuzzy = Verdadeiro | Falso | Pertinencia Double <b style="color:#0000cc;">deriving</b> Show
+
+fuzzyfica :: Double -&gt; Fuzzy
+fuzzyfica x
+    | x &lt;= 0 = Falso
+    | x &gt;= 1 = Verdadeiro
+    | otherwise = Pertinencia x
+
+f :: Identidade a -&gt; a
+f (Id x) = x
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Tipo Recursivo</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--Tipos que sao fefivndos udando o mprorpro tipo que estamos definindo</span>
+
+<b style="color:#0000cc;">data</b> Lista a = Vazia | Cons a (Lista a) <b style="color:#0000cc;">deriving</b> Show
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- cons 1 (Cons 2 (Cons 3 Vazia)) == [1,2,3]</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Uma arvore binaria pode ser uma folha com um valor (Leaf)</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- ou um no (Node) com um valor e duas subarvores: esquerda e direita.</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- O tipo e recursivo porque cada subarvore tambem e uma Tree a.</span>
+<b style="color:#0000cc;">data</b> Tree a = Leaf a | Node {_left :: Tree a,
+                              _value :: a,
+                              _right :: Tree a
+                            }    <b style="color:#0000cc;">deriving</b> Show
+
+t :: Tree Int
+t = Node t1 5 t2
+  <b style="color:#0000cc;">where</b>
+    t1 = Node (Leaf 1) 3 (Leaf 4)
+    t2 = Node (Leaf 6) 7 (Leaf 8)
+{-
+             5
+            / \
+           3   7 
+          / \ / \
+         1  4 6  8
+-}
+
+contem :: Ord a =&gt; Tree a -&gt; a -&gt; Bool
+contem (Leaf y) x = x == y 
+contem (Node l y r) x | x == y = True
+                      | x &lt;  y = contem l x
+                      | x &gt;  y = contem r x
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Record Type</span>
+<b style="color:#0000cc;">data</b> Ponto3D = Ponto { coordX :: Double, coordY :: Double, coordZ :: Double } <b style="color:#0000cc;">deriving</b> Show
+</pre>
+    </div>
+  </div>
+
+  <!-- PÁGINA 2: RECURSAO.HS EM 4 COLUNAS HORIZONTAIS -->
+  <div class="page">
+    <header>
+      <h1>FOLHA 2 (VERSO) — SEU RECURSAO.HS COMPLETO (4 COLUNAS)</h1>
+      <span>study test/recursao/recursao.hs • Todas as 250 linhas e comentários intactos</span>
+    </header>
+    <div class="columns4-recursao">
+      <pre><span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- No lugar de um loop igual na linguagem semantica, usamos recursão para percorrer listas e realizar operações. Abaixo estão algumas funções que demonstram o uso de recursão em Haskell.</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--Nao pode ter chamada infinita, por isso é importante ter uma condição de parada.</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Funcao recusirva eh uma funcao definida em termoa dela memsi possui tres partes </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- -&gt;  PARTICAO DO PROBLLEMA EM SUBPRONMAS</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- -&gt; a base final da recursao quando os problemas sao taoa pquenos que podem ser resolvidos diretamente, geralne de maneira trivial (caso base)</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- -&gt; A combinacao da repostara parciai, formando a reposta  toptal </span>
+
+
+fatorial :: Integer -&gt; Integer 
+fatorial n 
+    | n == 0 = 1  <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso base </span>
+    | n &gt; 0 = n * fatorial (n-1) <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso recursivo, a funcao se chama a si mesma com um valor menor de n</span>
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Recursao em calda de funções auxiliares, como `elem`, `nub`, `isAsc`, e `hasPath`, permite que você manipule listas e verifique condições de maneira eficiente. Cada função é definida com base em casos base e casos recursivos, garantindo que a execução termine corretamente.</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- escreva um funsao recuersdiva calcule o resto inteiro da divisao de dois numeros utilizanso subtacoes sucessivas </span>
+
+divRec :: Int -&gt; Int -&gt; Int
+divRec a b
+    | b &gt; a = a <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso base trivial, quando o divisor é maior que o dividendo, o resto é o próprio dividendo</span>
+    | b == a = 0 <span style="color:#15803d; font-weight:600; background:#f0fdf4;">--caso base trivial</span>
+    | otherwise = divRec (a - b ) b <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso recurvsi diminuindo o tamanho do preoblema </span>
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- 1) Escreva uma função recursiva que receba como parâmetros dois números inteiros positivos, x e n, e retorne o resultado de x*n, realizando somas sucessivas.</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Exemplo: mult 3 4 = 3 + 3 + 3 + 3 = 12</span>
+mult :: Int -&gt; Int -&gt; Int
+mult x n
+    | n == 0 = 0
+    | otherwise = x + mult x (n - 1) <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso recursivo: soma x repetidas vezes</span>
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- 2) Escreva uma função recursiva para o cálculo do MDC (máximo divisor comum) de dois números inteiros.</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Veja a definição recursiva:</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- mdc(a, b) = b, se a % b == 0</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- mdc(a, b) = mdc(b, a % b), caso contrário</span>
+
+
+
+
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Recursao em cauda eh um tipo de especial de recurso onde o resultado de chamada recursiva nao precisa sser processada de maneira alguma, para produzir o resultado final a linguagem haskell otimiza chamas com recucao em cauda de maeina denonomizar recursos e aumentar eficiema </span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Listas </span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Tipo das listas entre colchetes </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Lista de listas = [[1,2], [3,4]]  [[Int]] </span>
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Preenchemeneto -&gt;  1..10   1,3..10    10,8 .. 8 </span>
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- :  que toma um elemento e uma lista que pode estar vazia como seus argumentos </span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- head e tail -&gt; head retorna o primeiro elemento da lista, tail retorna a lista sem o primeiro elemento</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- ++ concatenacao de listas, concatena duas listas em uma só</span>
+
+compr :: [Int] -&gt; Int <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- função que calcula o comprimento de uma lista de inteiros</span>
+compr [] = 0 <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso base: lista vazia tem comprimento 0</span>
+compr (h:t) = 1 + compr t <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso recursivo: soma 1 ao comprimento da cauda da lista</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Tornando-se por base o operador de construcao (:), lista [1,2,3] pode ser escrira como 1:[2,3], onde 1::Int eh a cabeca da lista (head) e a lista [2,3]::[Int] eh a sua cauda (tail). A funcao compr percorre a lista recursivamente, contando os elementos ate chegar na lista vazia, que eh o caso base da recursao.</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- uma eh vazia ou eh yma lista com cabeca seguida de cauda o exemeplo a seguir implemena uma funcao que calcula o cumprimento de uma lista de inteiros</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- fazer com hull e gurda </span>
+
+cubo :: Int -&gt; Int
+cubo n = n * n * n <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- função que calcula o cubo de um número inteiro</span>
+
+aoCubo :: [Int] -&gt; [Int] <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- função que recebe uma lista de inteiros e retorna uma lista com os cubos desses inteiros</span>
+aoCubo [] = [] <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso base: lista vazia retorna lista vazia</span>
+aoCubo (h:t) = cubo h : aoCubo t <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso recursivo: aplica a função cubo à cabeça da lista e concatena com o resultado da chamada recursiva à cauda da lista</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Escreva uma funcao em Haskell que calcule a somatoria so elementos de um vetor de inteiros. </span>
+somatoria :: [Int] -&gt; Int
+somatoria [] = 0
+somatoria (h:t) = h + somatoria t
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Esrecva uma funcao e, haskell que verifique se uma string posssuir o caractere informado passado como parametro </span>
+
+temChar :: [Char] -&gt; Char -&gt; Bool
+temChar [] ch = False
+temChar (h:t) ch 
+    | h == ch = True 
+    | otherwise = temChar t ch
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Escreva uma funcao em Haskell que verifique se uma lista de inteiros possui um elemento maior que o valor informado como parametro</span>
+ehMaior :: [Int] -&gt; Int
+ehMaior [] = -1 <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso base: lista vazia é considerada maior que qualquer</span>
+ehMaior (h:t) = <b style="color:#0000cc;">if</b> h &gt;= maiorcauda <b style="color:#0000cc;">then</b> h <b style="color:#0000cc;">else</b> maiorcauda
+    <b style="color:#0000cc;">where</b> maiorcauda = ehMaior t
+    
+raizes :: Float -&gt; Float -&gt; Float -&gt; [Float]
+raizes a b c | delta &lt; 0 = []
+      | delta == 0 = [(-b)/(2*a)]
+      | delta &gt; 0 = [(-b - sqrt delta)/(2*a),(-b + sqrt delta)/(2*a)]
+      <b style="color:#0000cc;">where</b> delta = b*b - 4*a*c
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--mais pares = [2 * x | x &lt;- [0..10]]</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- escreva uam funcaod em haskell que retorner os 10 primeiros musltiplos de n utilie o gerar lista </span>
+
+tabuada :: Int -&gt; [Int]
+tabuada n = [n * x | x &lt;- [0..10] ]
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- escreva umafunacao que verifique se um determinado numero eh primo </span>
+isprimo :: Int -&gt; Bool
+isprimo n = <b style="color:#0000cc;">if</b> length [x | x &lt;- [1..n], mod n x ==0] == 2 <b style="color:#0000cc;">then</b> True <b style="color:#0000cc;">else</b> False 
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- QuickSort eh um algoritmo de ordenacao que utiliza a tecnica de divisao e conquista, onde o problema eh dividido em subproblemas menores, resolvidos recursivamente e combinados para obter a solucao final. O QuickSort escolhe um elemento como pivô e particiona a lista em duas sublistas: uma com elementos menores que o pivô e outra com elementos maiores. Em seguida, aplica-se recursivamente o QuickSort nas sublistas e combina os resultados.</span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- 1. escolher um elemento do vetor conhecido como pivo </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- 2. patriciona o verto de maneira que todos os elementos anteriores ao pivo sejam menor que ele, e todos os elementos posteriores sejam maiores </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- 3. Ordena recursivamente os vetore de elementos menorres e maios </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- a baase recursao dao os vetores de tamanho 0 ou 1 que ja se encontram ordenados </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- a casa passo de algoritmo pelo menos um elemntoo eh colocado sua posicao definitiva, e nao sera mais manipulado no passo seguinte </span>
+
+qsort :: [Int] -&gt; [Int]
+qqsort [] = []
+qsort (h:t) = qsort [y | y &lt;- t , y &lt; h ]
+                                ++[h]
+                                ++ qqsort [y | y &lt;- t, y &gt;= h]
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Uma tupla, pode der mais de um tipo,  eh cocecaod e valores </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--- os valores sao colocados entre parentesese separados p9or uam virgula (&quot;John&quot;, 123456)</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--valores de tuplkas sao definidos de maneiras semelhantes as listas mas com a utlizao de parentese ao inves de colces alem disso uma tupla pode conter valores de tipos de diferentes enquando uma lista nao a ordem dosnelesmentos importa de maneira que a tupla (12345,&quot;Jhon&quot;)  eh diferente da dupla modstreadsa acima </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- tupla de par funcoes fst para o priemeiro e o snd para o segundo </span>
+<b style="color:#0000cc;">type</b> NomeAluno = String
+<b style="color:#0000cc;">type</b> MediaNota = Int
+<b style="color:#0000cc;">type</b> Aluno = (NomeAluno, MediaNota)
+<b style="color:#0000cc;">type</b> Turma = [Aluno]
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- NOvo nome a tipos que existea para ficar mais legivel ainda </span>
+
+aprovado :: Turma -&gt; Int -&gt; [NomeAluno]
+aprovado tma nota =  [nome | (nome, media) &lt;- tma, media &gt;= nota]
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- crie a respesenracaode um pontod e teres simensoes a representacao deve ser realiszada por meio de uma tupla e a definicao de um novo tipo </span>
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- escreva uma funcao que caclule a distancia entre dois pontos como arfumentos </span>
+
+<b style="color:#0000cc;">type</b> Ponto = (Float, Float, Float)
+
+distancia (x1,y1,z1) (x2,y2,z2) = sqrt (dx*dx + dy*dy + dz*dz)
+    <b style="color:#0000cc;">where</b>
+        dx = x1-x2
+        dy = y1 -y2
+        dz =z1-z2
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Matchinh patterns nocao de casemnto de padroes  ao chamaa  funcaod pasanod um parametro ele tentara encaixar em qual padrao  ele encaiza de cima para baixo os padroes fornecidos pelo programador. o primeiro a ser encontrado eh exceutado com o valor passado como parametro </span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- de cima pra baixo o continga deve ser por ultimo </span>
+padroes :: Int -&gt; String
+padroes 1 = &quot;Um&quot;
+padroes _ = &quot;Nao esta entre 1 e 3 &quot;
+
+padroes2 :: [Int] -&gt; Int 
+padroes2 [] = 0 
+padroes2 (_:t) = padroes2 t 
+
+<b style="color:#0000cc;">type</b> Tupla4 = (Int,Int,Int,Int)
+padroes3 :: Tupla4 -&gt; String
+padroes3 (_,_,_,fourth) | fourth &gt; 10 = &quot;Maior que 10.&quot;
+                        | otherwise = &quot;Nao eh maior que 10&quot;
+
+
+opp2 :: (Int, (Int,Int)) -&gt; Int
+opp2 (1, (a,b)) = a + b 
+opp2 (2, (a,b)) = a - b 
+opp2 _ = 0 
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- Funcoes de alta ordem </span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- fucoes de alta ordem sao aquela que operam sobre outras funcoes ou seja que podem receber outra funcao como argumenro ou retormar uma funcao como resultsultaso</span>
+
+dobra :: Int -&gt; Int
+dobra n = n + n 
+
+quadrado :: Int -&gt; Int
+quadrado n = n*n 
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- uma funcao</span>
+mapInt :: (Int -&gt; Int) -&gt; [Int] -&gt; [Int]
+mapInt _ [] = []
+mapInt f (h:t) = (f h) : (mapInt f t)
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- eu aponto para funcao e no termina eu chamo a funcao passando ela por parametro</span>
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- O que eh filtri , que receve como agrumenro ua funcao de teste e seleciona os elementos da lista que satisfazem a condicao desejada </span>
+
+
+filtro :: (Int -&gt; Bool) -&gt; [Int] -&gt; [Int]
+filtro f [] = [] 
+filtro f (h:t)
+    | (f h) == True = h : (filtro f t)
+    | otherwise = filtro f t 
+
+pares :: Int -&gt; Bool 
+pares x = (mod x 2 == 0)
+
+impares :: Int -&gt; Bool 
+impares x = (mod x 2 == 1 )
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- uma funcao que busca o maior elemento em uma lista de inteiros  com maior e menor comofara isso </span>
+
+
+
+busca :: (Int -&gt; Int -&gt; Int ) -&gt; [Int] -&gt; Int
+busca _ [] = 0 <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso base, se a lista estiver vazia, retorna 0</span>
+busca _ [h] = h <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- caso base, se a lista tiver apenas um elemento, retorna esse elemento</span>
+busca f (h:t) = f h (busca f t) <span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- se eu tiver cabeca e cauda na lista eu aplico a funcao f na cabeca e no resultado da chamada recursiva na cauda da lista</span>
+
+
+maior :: Int -&gt; Int -&gt; Int 
+maior a b = <b style="color:#0000cc;">if</b>  a &gt; b <b style="color:#0000cc;">then</b> a <b style="color:#0000cc;">else</b> b
+
+
+menor :: Int -&gt; Int -&gt; Int 
+menor a b = <b style="color:#0000cc;">if</b> a &lt; b <b style="color:#0000cc;">then</b> a <b style="color:#0000cc;">else</b> b 
+
+
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">--</span>
+maiorElemento :: Int -&gt; Int -&gt;  Bool
+maiorElemento a b = <b style="color:#0000cc;">if</b> a &gt; b <b style="color:#0000cc;">then</b> True <b style="color:#0000cc;">else</b> False
+
+menorElemento :: Int -&gt; Int -&gt; Bool
+menorElemento a b = <b style="color:#0000cc;">if</b> a &lt; b <b style="color:#0000cc;">then</b> True <b style="color:#0000cc;">else</b> False
+
+buscaLista :: (Int -&gt; Int -&gt; Bool) -&gt; [Int] -&gt; Int
+buscaLista f [] = -1
+buscaLista f [h] = h
+buscaLista f (h:t) = <b style="color:#0000cc;">if</b> f h (buscaLista f t) <b style="color:#0000cc;">then</b> h <b style="color:#0000cc;">else</b> (buscaLista f t)
+
+<span style="color:#15803d; font-weight:600; background:#f0fdf4;">-- A mesma busca, guardando em x o resultado encontrado na cauda.</span>
+buscaListaWhere :: (Int -&gt; Int -&gt; Bool) -&gt; [Int] -&gt; Int
+buscaListaWhere _ [] = -1
+buscaListaWhere _ [cab] = cab
+buscaListaWhere f (cab:cauda) =
+    <b style="color:#0000cc;">if</b> f cab x <b style="color:#0000cc;">then</b> cab <b style="color:#0000cc;">else</b> x
+  <b style="color:#0000cc;">where</b>
+    x = buscaListaWhere f cauda
+
+</pre>
+    </div>
+  </div>
+
+</body>
+</html>
