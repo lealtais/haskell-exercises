@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Folha de Consulta A4 - Haskell (ITE-002)</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 8mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.25;
+      color: #111;
+      background: #fff;
+    }
+    .page {
+      width: 100%;
+      min-height: 275mm;
+      max-height: 280mm;
+      page-break-after: always;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .page:last-child {
+      page-break-after: avoid;
+    }
+    header {
+      border-bottom: 2px solid #222;
+      padding-bottom: 3px;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    header h1 {
+      font-size: 13pt;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    header span {
+      font-size: 8.5pt;
+      font-weight: 600;
+      color: #555;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      flex-grow: 1;
+    }
+    .full-width {
+      grid-column: span 2;
+    }
+    .card {
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      padding: 5px 6px;
+      background: #fafafa;
+    }
+    .card-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #0b3d91;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 2px;
+      margin-bottom: 3px;
+      display: flex;
+      justify-content: space-between;
+    }
+    pre, code {
+      font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+      font-size: 8.2pt;
+    }
+    pre {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 3px 5px;
+      margin-top: 2px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.2;
+    }
+    .hl {
+      color: #d9381e;
+      font-weight: bold;
+    }
+    .kw {
+      color: #0000cc;
+      font-weight: bold;
+    }
+    .comm {
+      color: #007700;
+      font-style: italic;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8pt;
+      margin-top: 3px;
+      background: #fff;
+    }
+    th, td {
+      border: 1px solid #bbb;
+      padding: 2px 4px;
+      text-align: left;
+    }
+    th {
+      background: #eef2f7;
+      font-weight: bold;
+    }
+    .tip {
+      font-size: 8pt;
+      background: #fff8e1;
+      border-left: 3px solid #ffb300;
+      padding: 3px 5px;
+      margin-top: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PÁGINA 1: FRENTE ==================== -->
+  <div class="page">
+    <div>
+      <header>
+        <h1>HASKELL — FOLHA DE CONSULTA OFICIAL (FRENTE)</h1>
+        <span>ITE-002: Programação Funcional • Folha A4</span>
+      </header>
+
+      <div class="grid">
+
+        <!-- BLOCO 1: DATA E TIPOS ALGÉBRICOS -->
+        <div class="card full-width">
+          <div class="card-title">1. DEFINIÇÃO DE NOVOS TIPOS COM DATA (Tipos Algébricos)</div>
+          <p style="font-size:8.2pt; margin-bottom:2px;">
+            <code>data NomeDoTipo = Construtor1 TipoA TipoB | Construtor2 TipoC deriving (Show, Eq)</code>
+          </p>
+          <pre><span class="comm">-- O símbolo | significa "OU". Construtores sempre começam com letra MAIÚSCULA!</span>
+<span class="comm">-- Modelo 1: Casa e Apartamento com metragem (Float) e preço (Float)</span>
+<span class="kw">data</span> <span class="hl">Imovel</span> = <span class="kw">Casa</span> Float Float
+            | <span class="kw">Apartamento</span> Float Float
+            <span class="kw">deriving</span> (Show, Eq)
+
+<span class="comm">-- Modelo 2: Bairro com lista de imóveis [Imovel], descrição (String) e preço médio (Float)</span>
+<span class="kw">data</span> <span class="hl">Bairro</span> = <span class="kw">Pompeia</span> [<span class="hl">Imovel</span>] String Float
+            | <span class="kw">SantaMaria</span> [<span class="hl">Imovel</span>] String Float
+            <span class="kw">deriving</span> (Show, Eq)
+
+<span class="comm">-- Alternativa válida: Record Syntax (com nomes de campos explícitos)</span>
+<span class="kw">data</span> <span class="hl">Produto</span> = <span class="kw">Produto</span> { nome :: String, preco :: Float, estoque :: Int } <span class="kw">deriving</span> Show</pre>
+        </div>
+
+        <!-- BLOCO 2: LISTAS CUSTOMIZADAS COM OPERADORES -->
+        <div class="card">
+          <div class="card-title">2. LISTA PRÓPRIA (Operador :>: e Nulo)</div>
+          <p style="font-size:8pt; margin-bottom:2px;">
+            Substitui <code>:</code> por <code>:>:</code> e <code>[]</code> por <code>Nulo</code>.
+          </p>
+          <pre><span class="kw">data</span> <span class="hl">List</span> a = a <span class="hl">:>:</span> (<span class="hl">List</span> a) | <span class="hl">Nulo</span> 
+            <span class="kw">deriving</span> (Show, Eq)
+
+<span class="comm">-- Remover o primeiro elemento (head) e retornar a cauda:</span>
+removerElementoInicio :: <span class="hl">List</span> a -> <span class="hl">List</span> a
+removerElementoInicio (x <span class="hl">:>:</span> xs) = xs
+removerElementoInicio <span class="hl">Nulo</span>       = <span class="hl">Nulo</span>
+
+<span class="comm">-- Pegar a cabeça:</span>
+cabeca (x <span class="hl">:>:</span> _) = x
+
+<span class="comm">-- Inserir no início:</span>
+inserirInicio x lista = x <span class="hl">:>:</span> lista</pre>
+        </div>
+
+        <!-- BLOCO 3: ÁRVORES BINÁRIAS -->
+        <div class="card">
+          <div class="card-title">3. ÁRVORES BINÁRIAS (Galho, Folha, Nulo)</div>
+          <p style="font-size:8pt; margin-bottom:2px;">
+            Estrutura com bifurcação: <code>Galho VALOR ESQ DIR</code>
+          </p>
+          <pre><span class="kw">data</span> <span class="hl">Arvore</span> a = <span class="kw">Galho</span> a (<span class="hl">Arvore</span> a) (<span class="hl">Arvore a</span>)
+              | <span class="kw">Folha</span> a
+              | <span class="kw">Nulo</span> 
+              <span class="kw">deriving</span> (Show, Eq)
+
+<span class="comm">-- Como instanciar árvore da imagem no papel:</span>
+<span class="comm">-- Raiz 30; Esq: Galho 20 (Nulo, Folha 3); Dir: Galho 45 (Folha 41, Nulo)</span>
+arvoreExemplo :: <span class="hl">Arvore</span> Int
+arvoreExemplo = 
+  <span class="kw">Galho</span> 30 (<span class="kw">Galho</span> 20 <span class="hl">Nulo</span> (<span class="kw">Folha</span> 3))
+           (<span class="kw">Galho</span> 45 (<span class="kw">Folha</span> 41) <span class="hl">Nulo</span>)</pre>
+        </div>
+
+        <!-- BLOCO 4: TYPE VS DATA -->
+        <div class="card full-width">
+          <div class="card-title">4. DIFERENÇA VITAL: TYPE vs DATA</div>
+          <pre>• <span class="kw">type</span> (Sinônimo / Apelido): NÃO cria tipo novo. Só dá um apelido para tipos que já existem.
+  <span class="kw">type</span> Nome = String
+  <span class="kw">type</span> Ponto = (Float, Float)        <span class="comm">-- apelido para uma tupla existente</span>
+  <span class="kw">type</span> Coord = (Int, Int)
+
+• <span class="kw">data</span> (Novo Tipo Algébrico): CRIA um tipo que não existia no Haskell. Exige Construtores com MAIÚSCULA.
+  <span class="kw">data</span> Dir = Norte | Sul | Leste | Oeste <span class="kw">deriving</span> Show
+  <span class="kw">data</span> Booleano = Falso | Verdadeiro</pre>
+        </div>
+
+      </div>
+    </div>
+    <div class="tip">
+      <strong>Regra de Ouro da Frente:</strong> Na prova, todo construtor de tipo começa com <strong>Letra Maiúscula</strong> (ex: <code>Galho</code>, <code>Folha</code>, <code>Casa</code>, <code>Pompeia</code>). Parênteses são obrigatórios em sub-árvores!
+    </div>
+  </div>
+
+  <!-- ==================== PÁGINA 2: VERSO ==================== -->
+  <div class="page">
+    <div>
+      <header>
+        <h1>HASKELL — FOLHA DE CONSULTA OFICIAL (VERSO)</h1>
+        <span>ITE-002: Programação Funcional • Folha A4</span>
+      </header>
+
+      <div class="grid">
+
+        <!-- BLOCO 5: FUNÇÃO BAR / FILTER E TESTE DE MESA -->
+        <div class="card full-width">
+          <div class="card-title">5. A FUNÇÃO BAR (FILTER DISFARÇADO) E TESTE DE MESA PASSO A PASSO</div>
+          <pre>bar :: (Eq a) => (a -> Bool) -> [a] -> [a]
+bar func [] = []
+bar func (x:xs)
+  | func x == True = x : bar func xs     <span class="comm">-- se func deu True, mantém o elemento x</span>
+  | otherwise      = bar func xs         <span class="comm">-- caso contrário, descarta o elemento x</span>
+
+<span class="hl">O que essa função faz?</span> Filtra a lista, retornando apenas elementos que satisfazem o predicado (é a função 'filter').</pre>
+
+          <p style="font-size:8.2pt; font-weight:bold; margin-top:3px;">
+            Teste de Mesa Exigido: <code>bar (\x -> elem x "FEfe") "FATEC"</code>
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Chamada</th>
+                <th>Elemento x</th>
+                <th>Cauda xs</th>
+                <th>Condição <code>elem x "FEfe"</code></th>
+                <th>Ação / Retorno</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>bar func "FATEC"</code></td>
+                <td><code>'F'</code></td>
+                <td><code>"ATEC"</code></td>
+                <td><strong>True</strong> ('F' está em "FEfe")</td>
+                <td><code>'F' : bar func "ATEC"</code> (Mantém 'F')</td>
+              </tr>
+              <tr>
+                <td><code>bar func "ATEC"</code></td>
+                <td><code>'A'</code></td>
+                <td><code>"TEC"</code></td>
+                <td><strong>False</strong> ('A' não está)</td>
+                <td><code>bar func "TEC"</code> (Descarta 'A')</td>
+              </tr>
+              <tr>
+                <td><code>bar func "TEC"</code></td>
+                <td><code>'T'</code></td>
+                <td><code>"EC"</code></td>
+                <td><strong>False</strong> ('T' não está)</td>
+                <td><code>bar func "EC"</code> (Descarta 'T')</td>
+              </tr>
+              <tr>
+                <td><code>bar func "EC"</code></td>
+                <td><code>'E'</code></td>
+                <td><code>"C"</code></td>
+                <td><strong>True</strong> ('E' está em "FEfe")</td>
+                <td><code>'E' : bar func "C"</code> (Mantém 'E')</td>
+              </tr>
+              <tr>
+                <td><code>bar func "C"</code></td>
+                <td><code>'C'</code></td>
+                <td><code>""</code> (vazia)</td>
+                <td><strong>False</strong> ('C' não está)</td>
+                <td><code>bar func ""</code> (Descarta 'C')</td>
+              </tr>
+              <tr>
+                <td><code>bar func ""</code></td>
+                <td>-</td>
+                <td>-</td>
+                <td>Caso base (lista vazia)</td>
+                <td><code>[]</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:8.5pt; margin-top:2px; font-weight:bold; color:#0b3d91;">
+            Resultado final reconstruído: 'F' : ('E' : []) = ['F', 'E'] = <span style="color:#d9381e;">"FE"</span>
+          </p>
+        </div>
+
+        <!-- BLOCO 6: FUNÇÕES DE ALTA ORDEM E FOLD -->
+        <div class="card">
+          <div class="card-title">6. ALTA ORDEM (MAP, FILTER, FOLDL)</div>
+          <pre>• <span class="kw">map</span> (\x -> x * 2) [1,3,5,7]
+  => Aplica em cada item: [<span class="hl">2, 6, 10, 14</span>]
+
+• <span class="kw">filter</span> odd [1, 2, 3, 4]
+  => Mantém apenas ímpares: [<span class="hl">1, 3</span>]
+
+• <span class="kw">foldl</span> (+) 0 [2,4,6,8]
+  => Acumula da esquerda para direita:
+     (((0 + 2) + 4) + 6) + 8 = <span class="hl">20</span>
+
+• <span class="kw">foldl</span> (-) 10 [1, 2, 3]
+  => ((10 - 1) - 2) - 3 = <span class="hl">4</span></pre>
+        </div>
+
+        <!-- BLOCO 7: COMPREENSÃO DE LISTAS E TIPOS (:t) -->
+        <div class="card">
+          <div class="card-title">7. LIST COMPREHENSION E TIPOS (:t)</div>
+          <pre>• <span class="kw">[x * 3 | x &lt;- [1..6], x > 3]</span>
+  1. Gerador 1..6: 1, 2, 3, 4, 5, 6
+  2. Filtro x > 3: sobram 4, 5, 6
+  3. Multiplica por 3: 4*3, 5*3, 6*3
+  => Resultado: [<span class="hl">12, 15, 18</span>]
+
+• <span class="kw">:t filter odd</span>
+  => <span class="hl">Integral a => [a] -> [a]</span>
+
+• <span class="kw">:t ("abc", True)</span>
+  => <span class="hl">([Char], Bool)</span>  ou  <span class="hl">(String, Bool)</span></pre>
+        </div>
+
+        <!-- BLOCO 8: MACETES DE SINTAXE -->
+        <div class="card full-width">
+          <div class="card-title">8. SINTAXE RÁPIDA DE SOBREVIVÊNCIA</div>
+          <pre>• Pattern Matching em Listas: (x:xs) onde x é a cabeça e xs é a cauda. [] é lista vazia.
+• Guardas (|): func x | x == 0 = 1 | x > 0 = x * 2 | otherwise = -1
+• Where (variáveis locais): delta = b*b - 4*a*c  (fica indentado no final da função)
+• Tuplas: fst (1, 2) => 1  |  snd (1, 2) => 2  |  ("SP", 10, True) é uma 3-tupla fixa.</pre>
+        </div>
+
+      </div>
+    </div>
+    <div class="tip">
+      <strong>Regra de Ouro do Verso:</strong> No teste de mesa, mostre SEMPRE a tabela linha por linha para garantir a pontuação integral da questão!
+    </div>
+  </div>
+
+</body>
+</html>
